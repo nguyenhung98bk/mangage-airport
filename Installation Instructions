@@ -1,0 +1,16 @@
+2 thư mục chính:
+-flybleu: hệ thống quản lý
+-bank: hệ thống ngân hàng
+vào lần lượt 2 thư mục chính và chạy lần lượt các lệnh:
+- composer install
+vào config lại file .env theo đúng database.
+- php artisan migrate
+- php artisan db:seed
+
+Coi như xong.
+Mỗi lần chạy thì vào flybleu trước chạy:
+- php artisan serve
+Rồi vào bank: 
+- php artisan serve
+
+Project dùng laravel và mysql nên setup môi trường.
