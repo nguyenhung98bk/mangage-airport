@@ -3,7 +3,7 @@
     <div class="container">
         <h2>Mua vé</h2>
         <p>Số tiền bạn cần thanh toán là {{$ticket->price}}</p>
-        <p>Bạn vui lòng click vào <a target="_blank" href="http://localhost:8001">đây để thanh toán</a> và điền mã giao dịch bên dưới</p>
+        <p>Bạn vui lòng click vào <a href="http://localhost:8001">đây để thanh toán</a> và điền mã giao dịch bên dưới</p>
         <input type="hidden" name="_token" value="{{ csrf_token() }} ">
         <div class="form-group">
             <label class="" for="trading_code">Mã giao dịch:</label>
@@ -58,7 +58,7 @@
         function updateStatus(id,code_trade) {
             $.ajax({
                 type: "POST",
-                url: '/finish_payment',
+                url: '/finish_payment2',
                 data: {
                     id: id,
                     code_trade: code_trade,

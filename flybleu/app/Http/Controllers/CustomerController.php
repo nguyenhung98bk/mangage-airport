@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\twoway_ticket;
 use Illuminate\Http\Request;
 use App\airport;
 use App\flight;
@@ -42,8 +43,10 @@ class CustomerController extends Controller
             return view('customer/buyticket2way',[
                 'ticket'=>'2',
                 'flight_departure'=>$flight_departure,
-                'flight_return'=>$flight_return,
                 'airport'=>$airport,
+                'id_luggage'=>$id_luggage,
+                'seat'=>$seat,
+                'flight_return'=>$flight_return,
             ]);
         }
         else{
@@ -76,6 +79,31 @@ class CustomerController extends Controller
         }
         return "???";
     }
+    public function confirmBuy2(Request $request){
+        if($request->get('id_seat_departure')&&$request->get('id_seat_return')) {
+            $id_seat_departure = $request->get('id_seat_departure');
+            $id_flight_departure = $request->get('id_flight_departure');
+            $flight_departure = flight::where('id', $id_flight_departure)->first();
+            $id_luggage = $request->get('id_luggage');
+            $luggage = luggage::where('id', $id_luggage)->first();
+            $id_flight_return = $request->get('id_flight_return');
+            $id_seat_return = $request->get('id_seat_return');
+            $flight_return = flight::where('id', $id_flight_return)->first();
+            $price = $flight_departure->price_flight + $flight_return->price_flight + $luggage->price_luggage;
+            twoway_ticket::insert([
+                'id_customer'=>Auth::user()->id,
+                'id_flight_outward'=>$id_flight_departure,
+                'id_flight_return'=>$id_flight_return,
+                'id_luggage'=>$id_luggage,
+                'id_seat_outward'=>$id_seat_departure,
+                'id_seat_return'=>$id_seat_return,
+                'price'=>$price,
+                'status_ticket'=>'2',
+            ]);
+            return "Vui lòng thanh toán.";
+        }
+        return "???";
+    }
     public function preview(Request $request) {
         $output = '';
         if($request->get('id_seat')) {
@@ -90,6 +118,36 @@ class CustomerController extends Controller
             $end_airport = airport::where('id', $flight->id_end_airport)->value('name_airport');
             $output = '<table><tr><td>Chuyến bay:</td><td>' . $start_airport . '-' . $end_airport . '</td></tr>
 <tr><td>Chỗ ngồi số:</td><td>' . $seat->id_seat_inline . '</td></tr>
+<tr><td>Thời gian:</td><td>' . $flight->departure_date . ' ' . $flight->departure_time .  '</td></tr>
+<tr><td>Gói hành lý:</td><td>' . $luggage->weight . 'Kg</td></tr>
+<tr><td>Tổng chi phí:</td><td>' . number_format($price) . 'VNĐ</td></tr></table>';
+        }
+        return $output;
+    }
+    public function preview2(Request $request) {
+        $output = '';
+        if($request->get('id_seat_departure')&&$request->get('id_seat_return')) {
+            $id_seat_departure = $request->get('id_seat_departure');
+            $id_flight_departure = $request->get('id_flight_departure');
+            $flight_departure = flight::where('id', $id_flight_departure)->first();
+            $id_luggage = $request->get('id_luggage');
+            $luggage = luggage::where('id', $id_luggage)->first();
+            $start_airport_departure = airport::where('id', $flight_departure->id_start_airport)->value('name_airport');
+            $end_airport_departure = airport::where('id', $flight_departure->id_end_airport)->value('name_airport');
+            $seat_departure = seat::where('id', $id_seat_departure)->first();
+            $id_flight_return = $request->get('id_flight_return');
+            $id_seat_return = $request->get('id_seat_return');
+            $flight_return = flight::where('id', $id_flight_return)->first();
+            $seat_return = seat::where('id', $id_seat_return)->first();
+            $start_airport_return = airport::where('id', $flight_return->id_start_airport)->value('name_airport');
+            $end_airport_return = airport::where('id', $flight_return->id_end_airport)->value('name_airport');
+            $price = $flight_departure->price_flight + $flight_return->price_flight + $luggage->price_luggage;
+            $output = '<table><tr><td>Chuyến bay đi:</td><td>' . $start_airport_departure . '-' . $end_airport_departure . '</td></tr>
+<tr><td>Chỗ ngồi số:</td><td>' . $seat_departure->id_seat_inline . '</td></tr>
+<tr><td>Thời gian:</td><td>' . $flight_departure->departure_date . ' ' . $flight_departure->departure_time .  '</td></tr>
+<tr><td>Chuyến bay về:</td><td>' . $start_airport_return . '-' . $end_airport_return . '</td></tr>
+<tr><td>Chỗ ngồi số:</td><td>' . $seat_return->id_seat_inline . '</td></tr>
+<tr><td>Thời gian:</td><td>' . $flight_return->departure_date . ' ' . $flight_return->departure_time .  '</td></tr>
 <tr><td>Gói hành lý:</td><td>' . $luggage->weight . 'Kg</td></tr>
 <tr><td>Tổng chi phí:</td><td>' . number_format($price) . 'VNĐ</td></tr></table>';
         }
@@ -97,13 +155,19 @@ class CustomerController extends Controller
     }
     public function payment(){
         $oneway_ticket = oneway_ticket::where('id_customer',Auth::user()->id)->orderBy('id', 'desc')->first();
-        $queue = (new \App\Jobs\BlockTicket($oneway_ticket->id))->delay(600);
-        $this->dispatch($queue);
         return view('customer/payment',['ticket'=>$oneway_ticket]);
+    }
+    public function payment2(){
+        $twoway_ticket = twoway_ticket::where('id_customer',Auth::user()->id)->orderBy('id', 'desc')->first();
+        return view('customer/payment2',['ticket'=>$twoway_ticket]);
     }
     public function re_payment($id){
         $oneway_ticket = oneway_ticket::where('id_seat',$id)->first();
         return view('customer/payment',['ticket'=>$oneway_ticket]);
+    }
+    public function re_payment2($id){
+        $twoway_ticket = twoway_ticket::where('id_seat_outward',$id)->first();
+        return view('customer/payment2',['ticket'=>$twoway_ticket]);
     }
     public  function historyBuy(){
         $oneway_ticket = oneway_ticket::where('oneway_ticket.id_customer', Auth::user()->id)
@@ -111,26 +175,53 @@ class CustomerController extends Controller
             ->leftjoin('flight','oneway_ticket.id_flight','=','flight.id')
             ->leftjoin('luggage','oneway_ticket.id_luggage','=','luggage.id')
             ->get();
-        $flight = flight::get();
+        $count = oneway_ticket::where('oneway_ticket.id_customer', Auth::user()->id)
+            ->leftjoin('seat','oneway_ticket.id_seat','=','seat.id')
+            ->leftjoin('flight','oneway_ticket.id_flight','=','flight.id')
+            ->leftjoin('luggage','oneway_ticket.id_luggage','=','luggage.id')
+            ->count();
+        $twoway_ticket = twoway_ticket::where('twoway_ticket.id_customer', Auth::user()->id)
+            ->leftjoin('seat','twoway_ticket.id_seat_outward','=','seat.id')
+            ->leftjoin('flight','twoway_ticket.id_flight_outward','=','flight.id')
+            ->leftjoin('luggage','twoway_ticket.id_luggage','=','luggage.id')
+            ->get();
         $airport = airport::get();
+        $flight = flight::get();
         $seat = seat::get();
-        $luggage = luggage::get();
         return view('customer/historyBuy',[
             'oneway_ticket'=>$oneway_ticket,
-            'flight'=>$flight,
+            'twoway_ticket'=>$twoway_ticket,
             'airport'=>$airport,
+            'flight'=>$flight,
             'seat'=>$seat,
-            'luggage'=>$luggage,
+            'count'=>$count,
         ]);
     }
     public function finish_payment(Request $request){
         $id = $request->get('id');
         $code_trade = $request->get('code_trade');
         $ticket_count = oneway_ticket::where('code_trade',$code_trade)->count();
-        if($ticket_count==0){
+        $ticket_count2 = twoway_ticket::where('code_trade',$code_trade)->count();
+        if($ticket_count+$ticket_count2==0){
             $id_seat = oneway_ticket::where('id',$id)->value('id_seat');
             seat::where('id',$id_seat)->update(['status'=>"1"]);
             oneway_ticket::where('id',$id)->update(['status_ticket'=>"1",'code_trade'=>$code_trade]);
+            return "Thanh toán thành công!";
+        }
+        else{
+            return "false";
+        }
+    }
+    public function finish_payment2(Request $request){
+        $id = $request->get('id');
+        $code_trade = $request->get('code_trade');
+        $ticket_count = oneway_ticket::where('code_trade',$code_trade)->count();
+        $ticket_count2 = twoway_ticket::where('code_trade',$code_trade)->count();
+        if($ticket_count+$ticket_count2==0){
+            $id_seat_outward = twoway_ticket::where('id',$id)->value('id_seat_outward');
+            $id_seat_return = twoway_ticket::where('id',$id)->value('id_seat_return');
+            seat::where('id',$id_seat_outward)->orWhere('id',$id_seat_return)->update(['status'=>"1"]);
+            twoway_ticket::where('id',$id)->update(['status_ticket'=>"1",'code_trade'=>$code_trade]);
             return "Thanh toán thành công!";
         }
         else{

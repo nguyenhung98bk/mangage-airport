@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FlightDatabaseSeeder::class);
         $this->call(SeatDatabaseSeeder::class);
         $this->call(LuggageDatabaseSeeder::class);
+        $this->call(UserDatabaseSeeder::class);
     }
 }
 class AirportDatabaseSeeder extends Seeder{
@@ -94,6 +95,20 @@ class LuggageDatabaseSeeder extends Seeder{
                 'weight' => '40',
                 'price_luggage' => '420000'
             ],
+        ]);
+    }
+}
+class UserDatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('users')->insert([
+           [
+               'name' => 'Admin',
+               'email' => 'admin@flybleu.com.vn',
+               'password' => bcrypt('123456'),
+               'type_user' => '0',
+           ],
         ]);
     }
 }

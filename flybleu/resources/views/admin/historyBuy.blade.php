@@ -51,9 +51,6 @@
                                 Đã hủy
                             @endif
                         </td>
-                        @if($value->status_ticket==2)
-                            <td><a href="{{url('re_payment',$value->id_seat)}}"><button>Thanh toán</button></a></td>
-                        @endif
                     </tr>
                 @endforeach
                 @foreach($twoway_ticket as $key=>$value2)
@@ -87,20 +84,20 @@
                                 @endif
                             @endforeach
                             -
-                                @foreach($flight as $f)
-                                    @if($f->id==$value2->id_flight_return)
-                                        @foreach($airport as $air)
-                                            @if($f->id_end_airport == $air->id)
-                                                {{$air->name_airport}}
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                @endforeach
+                            @foreach($flight as $f)
+                                @if($f->id==$value2->id_flight_return)
+                                    @foreach($airport as $air)
+                                        @if($f->id_end_airport == $air->id)
+                                            {{$air->name_airport}}
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endforeach
                         </td>
                         <td>
                             @foreach($seat as $s)
                                 @if($value2->id_seat_return==$s->id)
-                                {{$s->id_seat_inline}}
+                                    {{$s->id_seat_inline}}
                                 @endif
                             @endforeach
                         </td>
@@ -121,9 +118,6 @@
                                 Đã hủy
                             @endif
                         </td>
-                        @if($value2->status_ticket==2)
-                            <td><a href="{{url('re_payment2',$value2->id_seat_outward)}}"><button>Thanh toán</button></a></td>
-                        @endif
                     </tr>
                 @endforeach
                 </tbody>

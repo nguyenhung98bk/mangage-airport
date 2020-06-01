@@ -33,6 +33,10 @@
                 @if(Auth::check())
                     @if(Auth::user()->type_user==2)
                         @include("layouts/customer_master")
+                    @elseif(Auth::user()->type_user==1)
+                        @include("layouts/staff")
+                    @else
+                        @include("layouts/admin")
                     @endif
                 @endif
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
