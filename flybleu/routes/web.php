@@ -33,6 +33,8 @@ Route::get('payment2','CustomerController@payment2')->name('payment2');
 Route::get('re_payment/{id}','CustomerController@re_payment')->name('re_payment');
 Route::get('re_payment2/{id}','CustomerController@re_payment2')->name('re_payment2');
 Route::get('historyBuy','CustomerController@historyBuy')->name('historyBuy');
+Route::get('cancel_ticket/{id_seat}{type}','CustomerController@cancel_ticket')->name('cancel_ticket');
+Route::get('print_ticket/{id_seat}{type}','CustomerController@print_ticket')->name('print_ticket');
 
 Route::get('customer','AdminController@customer')->name('customer');
 Route::get('create_account','AdminController@create_account')->name('create_account');

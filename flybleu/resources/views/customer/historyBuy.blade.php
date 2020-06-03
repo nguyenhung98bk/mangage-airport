@@ -51,9 +51,21 @@
                                 Đã hủy
                             @endif
                         </td>
+                        <td>
                         @if($value->status_ticket==2)
-                            <td><a href="{{url('re_payment',$value->id_seat)}}"><button>Thanh toán</button></a></td>
+                            <a href="{{url('re_payment',$value->id_seat)}}"><button>Thanh toán</button></a>
                         @endif
+                        </td>
+                        <td>
+                            @if($value->status_ticket!=0)
+                                <a href="{{route('cancel_ticket',[$value->id_seat,1])}}"><button>Hủy vé</button></a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($value->status_ticket==1)
+                                <a href="{{route('print_ticket',[$value->id_seat,1])}}"><button>Xuất vé</button></a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 @foreach($twoway_ticket as $key=>$value2)
@@ -121,9 +133,21 @@
                                 Đã hủy
                             @endif
                         </td>
+                        <td>
                         @if($value2->status_ticket==2)
-                            <td><a href="{{url('re_payment2',$value2->id_seat_outward)}}"><button>Thanh toán</button></a></td>
+                            <a href="{{url('re_payment2',$value2->id_seat_outward)}}"><button>Thanh toán</button></a>
                         @endif
+                        </td>
+                        <td>
+                            @if($value2->status_ticket!=0)
+                                <a href="{{route('cancel_ticket',[$value2->id_seat_outward,2])}}"><button>Hủy vé</button></a>
+                            @endif
+                        </td>
+                        <td>
+                            @if($value2->status_ticket==1)
+                                <a href="{{route('print_ticket',[$value2->id_seat_outward,2])}}"><button>Xuất vé</button></a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

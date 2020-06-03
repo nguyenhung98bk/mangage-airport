@@ -228,4 +228,42 @@ class CustomerController extends Controller
             return "false";
         }
     }
+    public function cancel_ticket($id_seat,$type){
+        if($type==1){
+            oneway_ticket::where('id_seat',$id_seat)->update(['status_ticket'=>'0']);
+        }
+        else{
+            echo $id_seat;
+            twoway_ticket::where('id_seat_outward',$id_seat)->update(['status_ticket'=>'0']);
+        }
+        return redirect()->back();
+    }
+    public function print_ticket($id_seat,$type){
+        $airport = airport::get();
+        if($type==1){
+            $oneway_ticket = oneway_ticket::where('oneway_ticket.id_seat',$id_seat)
+                ->leftjoin('seat','oneway_ticket.id_seat','=','seat.id')
+                ->leftjoin('flight','oneway_ticket.id_flight','=','flight.id')
+                ->leftjoin('luggage','oneway_ticket.id_luggage','=','luggage.id')
+                ->first();
+            return view('customer/print_ticket',['ticket'=>$oneway_ticket,'airport'=>$airport,'type'=>'1']);
+        }
+        elseif ($type==2){
+            $twoway_ticket = twoway_ticket::where('twoway_ticket.id_seat_outward', $id_seat)
+                ->leftjoin('seat','twoway_ticket.id_seat_outward','=','seat.id')
+                ->leftjoin('flight','twoway_ticket.id_flight_outward','=','flight.id')
+                ->leftjoin('luggage','twoway_ticket.id_luggage','=','luggage.id')
+                ->first();
+            $airport = airport::get();
+            $flight = flight::get();
+            $seat = seat::get();
+            return view('customer/print_ticket',[
+                'value2'=>$twoway_ticket,
+                'airport'=>$airport,
+                'flight'=>$flight,
+                'seat'=>$seat,
+                'type'=>'2'
+            ]);
+        }
+    }
 }
