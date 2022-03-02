@@ -22,6 +22,7 @@ Route::post('bookticket','CustomerController@postBookticket');
 
 Route::post('confirmBuy1','CustomerController@confirmBuy1');
 Route::post('confirmBuy2','CustomerController@confirmBuy2');
+Route::post('check_seat','CustomerController@check_seat');
 Route::post('preview','CustomerController@preview');
 Route::post('preview2','CustomerController@preview2');
 Route::post('finish_payment','CustomerController@finish_payment')->name('finish_payment');

@@ -68,6 +68,9 @@
                     if(data=="false"){
                         alert("Mã giao dịch đã sử dụng cho thanh toán khác!");
                     }
+                    else if(data=="false2"){
+                        alert("Ghế đã có người đặt, hãy sử dụng mã giao dịch cho giao dịch khác!");
+                    }
                     else{
                         alert(data);
                         window.location.href = "{{route('historyBuy')}}"

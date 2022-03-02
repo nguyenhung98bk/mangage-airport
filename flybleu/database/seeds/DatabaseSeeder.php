@@ -4,11 +4,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
+
     public function run()
     {
         $this->call(AirportDatabaseSeeder::class);
@@ -35,17 +31,24 @@ class FlightDatabaseSeeder extends Seeder
     {
         DB::table('flight')->insert([
             [
+                'id_start_airport' => '3',
+                'id_end_airport' => '4',
+                'price_flight' => '1200000',
+                'departure_date' => '2022-03-1',
+                'departure_time' => '10:00'
+            ],
+            [
                 'id_start_airport' => '1',
                 'id_end_airport' => '2',
                 'price_flight' => '1000000',
-                'departure_date' => '2020-06-15',
+                'departure_date' => '2022-03-15',
                 'departure_time' => '9:30'
             ],
             [
                 'id_start_airport' => '2',
                 'id_end_airport' => '1',
                 'price_flight' => '1000000',
-                'departure_date' => '2020-06-22',
+                'departure_date' => '2022-03-22',
                 'departure_time' => '21:00'
             ],
         ]);

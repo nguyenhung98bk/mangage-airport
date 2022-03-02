@@ -57,13 +57,13 @@
                         @endif
                         </td>
                         <td>
-                            @if($value->status_ticket!=0)
+                            @if($value->status_ticket==2)
                                 <a href="{{route('cancel_ticket',[$value->id_seat,1])}}"><button>Hủy vé</button></a>
                             @endif
                         </td>
                         <td>
                             @if($value->status_ticket==1)
-                                <a href="{{route('print_ticket',[$value->id_seat,1])}}"><button>Xuất vé</button></a>
+                                <a href="{{route('print_ticket',[$value->id_seat,1])}}"><button>Xem vé</button></a>
                             @endif
                         </td>
                     </tr>

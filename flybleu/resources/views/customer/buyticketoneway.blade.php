@@ -62,7 +62,7 @@
                                     @if($s->status==0)
                                         background-color:green;
                                     @else
-                                        background-color:red;
+                                        background-color:#ff0000;
                                     @endif">
                                         {{$s->id_seat_inline}}
                                     </button>
@@ -115,7 +115,27 @@
         }
         function getData2(id_seat2,id_seat_inFlight) {
             id_seat = id_seat2;
-            document.getElementById("Notification").innerHTML = "Bạn đã chọn ghế số "+id_seat_inFlight;
+            $.ajax({
+                type: "POST",
+                url: '/check_seat' ,
+                data: {
+                    id_seat:id_seat,
+                    _token: '{{csrf_token()}}' },
+                success: function (data) {
+                    $('#countryList').fadeIn();
+                    $('#countryList').html(data);
+                    if(data == '0'){
+                        document.getElementById("Notification").innerHTML = "Bạn đã chọn ghế số "+id_seat_inFlight;
+                    }
+                    else{
+                        id_seat = "";
+                        document.getElementById("Notification").innerHTML = "Ghế đã có người lựa chọn";
+                    }
+                },
+                error: function (data, textStatus, errorThrown) {
+                    console.log(data);
+                },
+            });
         }
         function preview() {
             $.ajax({
@@ -132,7 +152,6 @@
                 },
                 error: function (data, textStatus, errorThrown) {
                     console.log(data);
-
                 },
             });
         }

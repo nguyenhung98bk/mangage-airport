@@ -26,10 +26,12 @@ class CustomerController extends Controller
         $id_end_airport = $req->end_airport;
         $date_departure = $req->date_departure;
         $id_luggage = $req->luggage;
+        $date_cur = date("Y/m/d");
         $flight_departure = flight::where([
             ['id_start_airport',$id_start_airport],
             ['id_end_airport',$id_end_airport],
             ['departure_date',$date_departure],
+            ['departure_date','>=',$date_cur]
         ])->get();
         $airport = airport::get();
         $seat = seat::get();
@@ -74,7 +76,7 @@ class CustomerController extends Controller
                 'id_seat'=>$id_seat,
                 'price'=>$price,
                 'status_ticket'=>'2',
-            ]);
+           ]);
             return "Vui lòng thanh toán.";
         }
         return "???";
@@ -103,6 +105,13 @@ class CustomerController extends Controller
             return "Vui lòng thanh toán.";
         }
         return "???";
+    }
+    public function check_seat(Request $request){
+        if($request->get('id_seat')) {
+            $id_seat = $request->get('id_seat');
+            return seat::where('id', $id_seat)->value('status');
+        }
+        return 2;
     }
     public function preview(Request $request) {
         $output = '';
@@ -204,6 +213,9 @@ class CustomerController extends Controller
         $ticket_count2 = twoway_ticket::where('code_trade',$code_trade)->count();
         if($ticket_count+$ticket_count2==0){
             $id_seat = oneway_ticket::where('id',$id)->value('id_seat');
+            if(seat::where('id',$id_seat)->value('status')){
+                return "false2";
+            }
             seat::where('id',$id_seat)->update(['status'=>"1"]);
             oneway_ticket::where('id',$id)->update(['status_ticket'=>"1",'code_trade'=>$code_trade]);
             return "Thanh toán thành công!";
