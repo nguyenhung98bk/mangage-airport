@@ -16,13 +16,6 @@ Route::get('/', function () {
 })->name('/');
 //Route::resource('getlistflytrade','Api\ListFlyTradeController');
 Route::post('payment','Controller@payment');
-/*Route::group([
-    'middleware' => ['api', 'cors'],
-    //'namespace' => $this->namespace,
-    'prefix' => 'api',
-], function ($router) {
-    Route::apiResource('/getlistflytrade','Api\ListFlyTradeController');
-});*/
 Route::middleware(['api', 'cors'])->group(function () {
     Route::resource('/getlistflytrade', 'Api\ListFlyTradeController');
 });

@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Laravel</title>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label for="pwd">Mật khẩu:</label>
-                <input type="password" class="form-control col-sm-4" placeholder="Mật khẩu" name="password" maxlength="6" required>
+                <input type="password" class="form-control col-sm-4" placeholder="Mật khẩu" name="password1" maxlength="6" required>
             </div>
             <div class="form-group">
                 <label for="amount">Số tiền:</label>

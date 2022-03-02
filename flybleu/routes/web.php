@@ -38,6 +38,7 @@ Route::get('cancel_ticket/{id_seat}{type}','CustomerController@cancel_ticket')->
 Route::get('print_ticket/{id_seat}{type}','CustomerController@print_ticket')->name('print_ticket');
 
 Route::get('customer','AdminController@customer')->name('customer');
+Route::post('search_customer','AdminController@search_customer');
 Route::get('create_account','AdminController@create_account')->name('create_account');
 Route::post('create_account','AdminController@postCreate_account');
 Route::get('view_history/{id}','AdminController@view_history')->name('view_history');

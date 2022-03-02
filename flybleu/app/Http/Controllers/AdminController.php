@@ -77,4 +77,14 @@ class AdminController extends Controller
             'count'=>$count,
         ]);
     }
+    public function search_customer(Request $request){
+        if($email=$request->get('email')) {
+            $list_user = users::where('email','LIKE',$email.'%')->where('type_user',2)->get();
+            $list = "";
+            foreach ($list_user as $key => $value){
+                $list = $list. '<tr><td>'.($key+1).'</td><td>'.$value->name.'</td><td>'.$value->email.'</td><td><a href="http://localhost:8000/view_history/'.$value->id.'"><button>Lịch sử giao dịch</button></a></td></tr>';
+            }
+            return $list;
+        }
+    }
 }

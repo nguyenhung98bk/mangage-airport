@@ -15,7 +15,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function payment(Request $request){
         $code_card = $request->code_card;
-        $password = $request->password;
+        $password = $request->password1;
         $amount = $request->amount;
         $balance = card::where([['code_card',$code_card],['password',$password]])->value('balance');
         if($balance==null){
