@@ -26,15 +26,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c094cb11-0364-401d-856b-b7e683ff72b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/bank/app/Http/Controllers/Controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/bank/resources/views/welcome.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/bank/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/app/Http/Controllers/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/resources/views/admin/customer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/resources/views/admin/customer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/resources/views/customer/historyBuy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/resources/views/customer/historyBuy.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flybleu/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/flybleu/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +160,7 @@
       <workItem from="1646150114881" duration="338000" />
       <workItem from="1646161219089" duration="1891000" />
       <workItem from="1646173209086" duration="10580000" />
-      <workItem from="1646216801564" duration="9981000" />
+      <workItem from="1646216801564" duration="10839000" />
     </task>
     <servers />
   </component>
